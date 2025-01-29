@@ -21,3 +21,4 @@ export interface ICardsData { // интерфейс для модалки
   prewiew: string | null;  // хранится указатель на ту карточку которую мы хотим просмотреть _id
   getCard(cardId: string): ICard;
 }
+
