@@ -9,7 +9,7 @@ export class Card {
   protected cardId: string;
   protected cardCategory: HTMLElement;
   protected cardTitle: HTMLElement;
-  protected cardImage: HTMLElement;
+  protected cardImage: HTMLImageElement;
   protected cardText: HTMLElement;
   protected cardPrice: HTMLElement;
   protected addCartButton: HTMLElement;
@@ -28,15 +28,25 @@ export class Card {
     this.addCartButton = this.element.querySelector('.card__button');
     this.deleteCardButton = this.element.querySelector('.basket__item-delete');
     this.cardIndex = this.element.querySelector('.basket__item-index');
+
+    this.element.addEventListener('click', () => {
+      this.events.emit('card:select', { card: this});
+    });
   }
 
   setData(cardData: ICard) {
-    this.cardId = cardData._id;
+    this.cardId = cardData.id;
     this.cardCategory.textContent = cardData.category;
     this.cardTitle.textContent = cardData.title;
-    this.cardImage.setAttribute('src', cardData.image);
-    this.cardPrice.textContent = `${cardData.price} + синапсов`;
-    this.cardText.textContent = cardData.text;
+    this.cardImage.src = require(`../images${cardData.image}`);
+    this.cardImage.alt = cardData.title;
+    if(cardData.price) {
+      this.cardPrice.textContent = `${cardData.price} синапсов`;
+    } else {
+      this.cardPrice.textContent = `Бесценно`;
+    }
+    
+    // this.cardText.textContent = cardData.text;
   }
 
   get id() {

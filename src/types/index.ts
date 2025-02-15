@@ -1,14 +1,13 @@
 import { ApiPostMethods } from '../components/base/api';
 
 export interface ICard { // интерфейс карточки товара
-  _id: string;
+  id: string;
   description: string;
   image: string;
   title: string;
   category: string;
   price: number;
   text: string;
-  
 }
 
 export interface IOrder {
@@ -22,7 +21,6 @@ export interface IOrder {
 
 export interface ICardsData { // интерфейс для 
   cards: ICard[];
-  prewiew: string | null;  // хранится указатель на ту карточку которую мы хотим просмотреть _id
   getCard(cardId: string): ICard;
 }
 

@@ -1,4 +1,4 @@
-interface ICardsContainer {
+export interface ICardsContainer {
   catalog: HTMLElement[];
 }
 
@@ -14,7 +14,7 @@ export class CardsContainer {
     this.container.replaceChildren(...items);
   }
 
-  render(data: ICardsContainer) {
-    return this.
+  render() {
+    return this.container;
   }
 }

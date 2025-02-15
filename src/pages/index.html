@@ -16,8 +16,7 @@
 	</head>
 
 	<body class="page">
-
-		<div class="page__wrapper ">
+		<div class="page__wrapper">
 			<header class="header">
 				<div class="header__container">
 					<a class="header__logo" href="/">
@@ -34,18 +33,20 @@
 			</header>
 
 			<main class="gallery"></main>
-
 		</div>
 
-		<div class="modal " id="modal-container">
+		<div class="modal" id="modal-container">
 			<div class="modal__container">
 				<button class="modal__close" aria-label="закрыть"></button>
-				<div class="modal__content"></div>
+				<div class="modal__content">
+					<!-- сюда должны передавать контент модального окна т.е. саму 
+ карточку или корзину или данные покупателя -->
+				</div>
 			</div>
 		</div>
 
 		<!-- <div class="modal modal_active"> -->
-		<div class="modal ">
+		<div class="modal">
 			<div class="modal__container">
 				<button class="modal__close" aria-label="закрыть"></button>
 				<div class="modal__content">
@@ -71,8 +72,8 @@
 			</div>
 		</div>
 
-		<div class="modal ">
-			<div class="modal__container ">
+		<div class="modal">
+			<div class="modal__container">
 				<button class="modal__close" aria-label="закрыть"></button>
 				<div class="modal__content">
 					<div class="basket">
@@ -115,7 +116,7 @@
 			</div>
 		</div>
 
-		<div class="modal ">
+		<div class="modal">
 			<div class="modal__container">
 				<button class="modal__close" aria-label="закрыть"></button>
 				<div class="modal__content">
@@ -149,7 +150,7 @@
 			</div>
 		</div>
 
-		<div class="modal ">
+		<div class="modal">
 			<div class="modal__container">
 				<button class="modal__close" aria-label="закрыть"></button>
 				<div class="modal__content">
@@ -175,8 +176,8 @@
 				</div>
 			</div>
 		</div>
- 
-		<div class="modal ">
+
+		<div class="modal">
 			<div class="modal__container">
 				<button class="modal__close" aria-label="закрыть"></button>
 				<div class="modal__content">
@@ -191,7 +192,7 @@
 			</div>
 		</div>
 
-		<template id="success" >
+		<template id="success">
 			<div class="order-success">
 				<h2 class="order-success__title">Заказ оформлен</h2>
 				<p class="order-success__description">Списано 0 синапсов</p>
@@ -201,7 +202,7 @@
 			</div>
 		</template>
 
-<!-- карточка товара на главной странице в режиме просто отображения -->
+		<!-- карточка товара на главной странице в режиме просто отображения -->
 		<template id="card-catalog">
 			<button class="gallery__item card">
 				<span class="card__category card__category_soft">софт-скил</span>
@@ -215,8 +216,8 @@
 			</button>
 		</template>
 
-<!-- когда кликаешь на карточку появляется card preview -->
-		<template id="card-preview"> 
+		<!-- когда кликаешь на карточку появляется card preview -->
+		<template id="card-preview">
 			<div class="card card_full">
 				<img
 					class="card__image"
@@ -238,7 +239,7 @@
 		</template>
 
 		<template id="card-basket">
-			<li class="basket__item card card_compact ">
+			<li class="basket__item card card_compact">
 				<span class="basket__item-index">1</span>
 				<span class="card__title">Фреймворк куки судьбы</span>
 				<span class="card__price">2500 синапсов</span>
@@ -321,6 +322,5 @@
 				</div>
 			</form>
 		</template>
-
 	</body>
 </html>
