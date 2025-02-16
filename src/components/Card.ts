@@ -17,6 +17,15 @@ export class Card {
   protected cardIndex: HTMLElement;
   protected element: HTMLElement;
 
+  Category: { [key: string]: string } = {
+		'софт-скил': 'card__category_soft',
+		'хард-скил': 'card__category_hard',
+		'дополнительное': 'card__category_additional',
+		'другое': 'card__category_other',
+		'кнопка': 'card__category_button',
+	};
+
+
   constructor(template: HTMLTemplateElement, events: IEvents) {
     this.events = events;
     this.element = cloneTemplate(template);
@@ -28,25 +37,46 @@ export class Card {
     this.addCartButton = this.element.querySelector('.card__button');
     this.deleteCardButton = this.element.querySelector('.basket__item-delete');
     this.cardIndex = this.element.querySelector('.basket__item-index');
-
+   
     this.element.addEventListener('click', () => {
       this.events.emit('card:select', { card: this});
     });
   }
 
-  setData(cardData: ICard) {
-    this.cardId = cardData.id;
-    this.cardCategory.textContent = cardData.category;
-    this.cardTitle.textContent = cardData.title;
-    this.cardImage.src = require(`../images${cardData.image}`);
-    this.cardImage.alt = cardData.title;
-    if(cardData.price) {
-      this.cardPrice.textContent = `${cardData.price} синапсов`;
+  render(cardData: Partial<ICard>) {
+    const {price, ...otherCardData} = cardData;
+    if(!price) {
+      this.price = 'Бесценно';
     } else {
-      this.cardPrice.textContent = `Бесценно`;
-    }
-    
-    // this.cardText.textContent = cardData.text;
+      this.price = `${price} Синапсов`;
+    };
+    Object.assign(this, otherCardData);
+    return this.element;
+  }
+
+  set price(price: string) {
+      this.cardPrice.textContent = price;
+  }
+
+  set text(description: string) {
+    this.cardText.textContent = description;
+  }
+
+  set image(imageLink: string) {
+    this.cardImage.src = require(`../images${imageLink}`);
+  }
+
+  set title (title: string) {
+    this.cardTitle.textContent = title;
+    this.cardImage.alt = title;
+  }
+
+  set category (category: string) {    
+    this.cardCategory.textContent = category;
+  }
+
+  set id (id: string) {
+    this.cardId = id;
   }
 
   get id() {
@@ -57,9 +87,4 @@ export class Card {
 		this.element.remove();
 		this.element = null;
 	} 
-
-  render() {
-		return this.element;
-	}
-
 }

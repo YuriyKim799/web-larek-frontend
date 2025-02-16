@@ -6,7 +6,7 @@ import { CardsContainer } from './components/CardsContainer';
 import { CardData } from './components/CardsData';
 import { Modal } from './components/Modal';
 import './scss/styles.scss';
-import { IApi } from './types';
+import { IApi, ICard } from './types';
 import { API_URL } from './utils/constants';
 
 const events: IEvents = new EventEmitter();
@@ -29,16 +29,20 @@ api.getCards().then((res) => {
 events.on('initialData:loaded', ()=> {
   const cardsArray = cardsData.cards.map((card) => {
     const cardInstant = new Card(cardCatalogTemplate, events);
-     cardInstant.setData(card);
-     return cardInstant.render();
+    return cardInstant.render(card);
   });
+
   cardsContainer.catalog = cardsArray;
 })
 
-events.on('card:select', (data: {card: Card}) => {
-  const { card } = data;
-   console.log(card.id);
-   const mainModal = new Modal(modalElement, cardPreviewTemplate, events);
-   console.log(cardsData.getCard(card.id));
-   mainModal.open();
-})
+// events.on('card:select', (data: {card: ICard}) => {
+//   const { card } = data;
+//   //  console.log(card);
+//    const cardItemPreview = new Card(cardPreviewTemplate, events);
+//    cardItemPreview.setData(card);
+//   const cardElementPreview = cardItemPreview.render();
+//    const mainModal = new Modal(modalElement, cardPreviewTemplate, events);
+//   //  console.log(cardsData.getCard(card.id));
+//   mainModal.content = cardElementPreview;
+//    mainModal.open();
+// })
