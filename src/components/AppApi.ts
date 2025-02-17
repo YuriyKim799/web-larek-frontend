@@ -1,15 +1,38 @@
-import { IApi, ICard } from '../types';
-import { ApiListResponse } from './base/api';
+import { ICard, IOrder, IOrderResult } from '../types';
+import { Api, ApiListResponse } from './base/api';
+
+export interface ICustomApi {
+	  getProductList: () => Promise<ICard[]>;
+    getProductItem: (id: string) => Promise<ICard>;
+	  orderProducts: (order: IOrder) => Promise<IOrderResult>;
+}
 
 
-export class AppApi {
-  private _baseApi: IApi;
+export class AppApi extends Api implements ICustomApi {
+  readonly cdn: string;
 
-  constructor(baseApi: IApi) {
-    this._baseApi = baseApi;
+  constructor(cdn: string, baseUrl: string, options?: RequestInit) {
+    super(baseUrl, options);
+    this.cdn = cdn;
+}
+
+  getProductList(): Promise<ICard[]> {
+    return this.get('/product').then((data: ApiListResponse<ICard>) => 
+      data.items.map((card) => ({
+        ...card,
+        image: this.cdn + card.image
+      }))
+    );
   }
 
-  getCards() {
-    return this._baseApi.get(`/product/`).then((cards: ApiListResponse<ICard>) => cards);
-  }
+  getProductItem(id: string): Promise<ICard> {
+    return this.get(`/product/${id}`).then((card: ICard) => ({
+      ...card,
+      image: this.cdn + card.image
+    }))
+  };
+
+  orderProducts(order: IOrder):Promise<IOrderResult> {
+    return this.post('/order', order).then((data: IOrderResult) => data);
+  };
 }

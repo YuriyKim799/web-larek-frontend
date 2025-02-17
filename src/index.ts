@@ -1,38 +1,38 @@
 import { AppApi } from './components/AppApi';
-import { Api } from './components/base/api';
 import { EventEmitter, IEvents } from './components/base/events';
 import { Card } from './components/Card';
 import { CardsContainer } from './components/CardsContainer';
-import { CardData } from './components/CardsData';
-import { Modal } from './components/Modal';
+import { Page } from './components/Page';
+import { AppData } from './components/WebLarekData';
 import './scss/styles.scss';
-import { IApi, ICard } from './types';
-import { API_URL } from './utils/constants';
-
-const events: IEvents = new EventEmitter();
-const baseApi: IApi = new Api(API_URL);
-const api = new AppApi(baseApi);
+import { API_URL,CDN_URL } from './utils/constants';
+import { cloneTemplate, ensureElement } from './utils/utils';
 
 const cardsContainerElement = document.querySelector('.gallery') as HTMLElement
 const modalElement = document.querySelector('#modal-container') as HTMLElement
-const cardCatalogTemplate = document.querySelector('#card-catalog') as HTMLTemplateElement
+const cardTemlate = ensureElement<HTMLTemplateElement>('#card-catalog');
 const cardPreviewTemplate = document.querySelector('#card-preview') as HTMLTemplateElement
-const cardsData = new CardData(events);
 const cardsContainer = new CardsContainer(cardsContainerElement);
 
+const events: IEvents = new EventEmitter();
+const api = new AppApi(CDN_URL, API_URL);
+const cardsData = new AppData(events);
+const page = new Page(cardsContainerElement, events)
 
-api.getCards().then((res) => {
-  cardsData.cards = res.items;
-  events.emit('initialData:loaded');
-});
 
-events.on('initialData:loaded', ()=> {
-  const cardsArray = cardsData.cards.map((card) => {
-    const cardInstant = new Card(cardCatalogTemplate, events);
-    return cardInstant.render(card);
+
+
+api.getProductList()
+  .then(cardsData.setCards.bind(cardsData))
+  .catch(err => {console.log(err)});
+
+events.on('items:change', ()=> {
+  page.catalog = cardsData.items.map(item => {
+    const card = new Card(cloneTemplate(cardTemlate), {
+      onClick: () => events.emit('card:select', item)
+    });
+    return card.render(item);
   });
-
-  cardsContainer.catalog = cardsArray;
 })
 
 // events.on('card:select', (data: {card: ICard}) => {

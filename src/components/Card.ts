@@ -1,21 +1,19 @@
 // Компонент ВЬЮ
 import { ICard } from '../types';
-import { cloneTemplate } from '../utils/utils';
-import { IEvents } from './base/events';
-
-
-export class Card {
-  protected events: IEvents;
-  protected cardId: string;
-  protected cardCategory: HTMLElement;
-  protected cardTitle: HTMLElement;
-  protected cardImage: HTMLImageElement;
-  protected cardText: HTMLElement;
-  protected cardPrice: HTMLElement;
-  protected addCartButton: HTMLElement;
-  protected deleteCardButton: HTMLElement;
-  protected cardIndex: HTMLElement;
-  protected element: HTMLElement;
+import { ensureElement } from '../utils/utils';
+import { Component } from './base/Component';
+interface ICardActions {
+	onClick: (event: MouseEvent) => void;
+}
+export class Card extends Component<ICard>{
+  protected _cardId: string;
+  protected _cardCategory: HTMLElement;
+  protected _cardTitle: HTMLElement;
+  protected _cardImage: HTMLImageElement;
+  protected _cardDescription: HTMLElement;
+  protected _cardPrice: HTMLElement;
+  protected _button: HTMLButtonElement;
+  protected _cardIndex: HTMLElement;
 
   Category: { [key: string]: string } = {
 		'софт-скил': 'card__category_soft',
@@ -25,66 +23,79 @@ export class Card {
 		'кнопка': 'card__category_button',
 	};
 
+  constructor(container: HTMLElement, actions: ICardActions) {
+    super(container);
+    this._cardTitle = ensureElement<HTMLElement>('.card__title', container);
+    this._cardPrice = ensureElement<HTMLElement>('.card__price', container);
 
-  constructor(template: HTMLTemplateElement, events: IEvents) {
-    this.events = events;
-    this.element = cloneTemplate(template);
-    this.cardCategory = this.element.querySelector('.card__category');
-    this.cardTitle = this.element.querySelector('.card__title');
-    this.cardImage = this.element.querySelector('.card__image');
-    this.cardText = this.element.querySelector('.card__text');
-    this.cardPrice = this.element.querySelector('.card__price');
-    this.addCartButton = this.element.querySelector('.card__button');
-    this.deleteCardButton = this.element.querySelector('.basket__item-delete');
-    this.cardIndex = this.element.querySelector('.basket__item-index');
+    this._cardCategory = container.querySelector('.card__category');
+    this._cardImage = container.querySelector('.card__image');
+    this._cardDescription = container.querySelector('.card__text');
+    this._button = container.querySelector('.card__button');
+    this._cardIndex = container.querySelector('.basket__item-index');
    
-    this.element.addEventListener('click', () => {
-      this.events.emit('card:select', { card: this});
-    });
+    if (actions?.onClick) {
+			if (this._button) {
+				this._button.addEventListener('click', actions.onClick);
+			} else {
+				container.addEventListener('click', actions.onClick);
+			}
+		}
   }
 
-  render(cardData: Partial<ICard>) {
-    const {price, ...otherCardData} = cardData;
-    if(!price) {
-      this.price = 'Бесценно';
-    } else {
-      this.price = `${price} Синапсов`;
-    };
-    Object.assign(this, otherCardData);
-    return this.element;
+  set price(price: number | null) {
+    this.setText(
+			this._cardPrice,
+			price ? `${price.toString()} синапсов` : 'Бесценно');
+		if (price === null && this._button) {
+			this._button.disabled = true;
+		}
   }
 
-  set price(price: string) {
-      this.cardPrice.textContent = price;
+  set description(description: string) {
+    this.setText(this._cardDescription, description);
   }
 
-  set text(description: string) {
-    this.cardText.textContent = description;
+  set title(title: string) {
+    this.setText(this._cardTitle, title);
   }
 
-  set image(imageLink: string) {
-    this.cardImage.src = require(`../images${imageLink}`);
+
+  set image(src: string,) {
+    this.setImage(this._cardImage, src, this.title);
   }
 
-  set title (title: string) {
-    this.cardTitle.textContent = title;
-    this.cardImage.alt = title;
-  }
 
-  set category (category: string) {    
-    this.cardCategory.textContent = category;
+  set category(category: string) {    
+    this.setText(this._cardCategory, category);
+    this.toggleClass(this._cardCategory, this.Category[category], true);
   }
 
   set id (id: string) {
-    this.cardId = id;
+    this._cardId = id;
   }
 
-  get id() {
-		return this.cardId;
+  get id(): string {
+		return this._cardId || '';
 	}
 
-  deleteCard() {
-		this.element.remove();
-		this.element = null;
-	} 
+  set button(btnText: string) {
+		this.setText(this._button, btnText);
+	}
+
+  set inCart(value: boolean) {
+		this.changeButtonDescription(value);
+	}
+
+  set cartItemIndex(idx: string) {
+		this._cardIndex.textContent = idx;
+	}
+
+  changeButtonDescription(inCart: boolean) {
+		if (inCart) {
+			this.button = 'Удалить из корзины';
+		} else {
+			this.button = 'В корзину';
+		}
+	}
 }
