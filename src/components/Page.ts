@@ -21,8 +21,9 @@ export class Page extends Component<IPage> {
 
 		this._counter = ensureElement<HTMLElement>('.header__basket-counter');
 		this._catalog = ensureElement<HTMLElement>('.gallery');
-		this._wrapper = ensureElement<HTMLElement>('.page__wrapper');
+		// this._wrapper = ensureElement<HTMLElement>('.page__wrapper');
 		this._shoppingCartIcon = ensureElement<HTMLElement>('.header__basket');
+
 		this._shoppingCartIcon.addEventListener('click', () => {
 			this.events.emit('shoppingCart:select');
 		});
@@ -37,10 +38,17 @@ export class Page extends Component<IPage> {
 	}
 
 	set locked(value: boolean) {
-		if (value) {
-			this.toggleClass(this._wrapper, 'page__wrapper_locked', true);
-		} else {
-			this.toggleClass(this._wrapper, 'page__wrapper_locked');
-		}
+	// 	if (value) {
+	// 		this._wrapper.classList.add('page__wrapper_locked');
+	// 	} else {
+	// 		this._wrapper.classList.remove('page__wrapper_locked');
+	// 	}
+	// }
+
+	if (value) {
+		this.toggleClass('page__wrapper_locked');
+	} else {
+		this.toggleClass('page__wrapper_locked');
 	}
+}
 }

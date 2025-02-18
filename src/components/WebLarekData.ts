@@ -2,7 +2,7 @@ import { IBasket, ICard, IOrder, OrderForm, PaymentMethod } from '../types';
 import { IEvents } from './base/events';
 
 export class AppData {
-  items: ICard[] = [];
+  items: ICard[];
   previewCard: ICard = null;
   basket: IBasket = { 
     cards: [],
@@ -20,7 +20,6 @@ export class AppData {
 
   formErrors: Partial<Record<keyof OrderForm, string>> = {};
 
-  
   constructor(protected events: IEvents) {}
 
   setCards(cards: ICard[]) {
@@ -30,7 +29,7 @@ export class AppData {
 
   setPreview(card: ICard) {
     this.previewCard = card;
-    this.events.emit('card:select', this.previewCard);
+    this.events.emit('preview:change', this.previewCard);
   }
 
   inBasket(card: ICard) {

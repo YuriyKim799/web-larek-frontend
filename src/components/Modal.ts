@@ -1,25 +1,24 @@
-import { cloneTemplate } from '../utils/utils';
+
+import { ensureElement } from '../utils/utils';
+import { View } from './base/Component';
 import { IEvents } from './base/events';
 
+interface IModal {
+  content: HTMLElement;
+}
 
-export class Modal {
-  
-  protected events: IEvents;
-  protected modalElement: HTMLElement;
+export class Modal extends View<IModal>{
+  protected _closeButton: HTMLButtonElement;
   protected _content: HTMLElement;
 
-  constructor(modalElement: HTMLElement, template: HTMLTemplateElement, events: IEvents) {
-    this.events = events;
-    this.modalElement = modalElement;
-    this._content = modalElement.querySelector('.modal__content')
-  
-  const closeButtonElement = this.modalElement.querySelector(".modal__close");
-    closeButtonElement.addEventListener("click", this.close.bind(this));
-    this.modalElement.addEventListener("mousedown", (evt) => {
-      if (evt.target === evt.currentTarget) {
-        this.close();
-      }
-    });
+  constructor(events: IEvents, container: HTMLElement) {
+    super(events, container)
+    this._closeButton = ensureElement<HTMLButtonElement>(".modal__close", container);
+    this._content = ensureElement<HTMLElement>('.modal__content', container);
+
+    this._closeButton.addEventListener("click", this.close.bind(this));
+    this.container.addEventListener('click', this.close.bind(this));
+    this._content.addEventListener('click', (event) => event.stopPropagation());// нужен для того чтобы кликая на любую зону карточки она не закрывалась
     this.handleEscUp = this.handleEscUp.bind(this);
   }
   
@@ -28,13 +27,16 @@ export class Modal {
 }
 
   open() {
-    this.modalElement.classList.add("modal_active");
-    document.addEventListener("keyup", this.handleEscUp);
+    this.container.classList.add("modal_active");
+    document.addEventListener('keyup', this.handleEscUp);
+    this.events.emit('modal:open')
       }
 
   close() {
-    this.modalElement.classList.remove("modal_active");
-    document.removeEventListener("keyup", this.handleEscUp);
+    this.container.classList.remove("modal_active");
+    document.removeEventListener('keyup', this.handleEscUp);
+    this.content = null;
+    this.events.emit('modal:close');
   }
 
   handleEscUp (evt: KeyboardEvent) {
@@ -42,5 +44,11 @@ export class Modal {
         this.close();
       }
     };
+
+    render(data: IModal):HTMLElement {
+      super.render(data);
+      this.open();
+      return this.container;
+    }
 }
 

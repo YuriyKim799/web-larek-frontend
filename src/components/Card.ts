@@ -1,10 +1,12 @@
 // Компонент ВЬЮ
 import { ICard } from '../types';
-import { ensureElement } from '../utils/utils';
+import { bem, ensureElement } from '../utils/utils';
 import { Component } from './base/Component';
 interface ICardActions {
 	onClick: (event: MouseEvent) => void;
 }
+
+type CardModifier = 'compact' | 'full';
 export class Card extends Component<ICard>{
   protected _cardId: string;
   protected _cardCategory: HTMLElement;
@@ -27,7 +29,6 @@ export class Card extends Component<ICard>{
     super(container);
     this._cardTitle = ensureElement<HTMLElement>('.card__title', container);
     this._cardPrice = ensureElement<HTMLElement>('.card__price', container);
-
     this._cardCategory = container.querySelector('.card__category');
     this._cardImage = container.querySelector('.card__image');
     this._cardDescription = container.querySelector('.card__text');
@@ -60,15 +61,21 @@ export class Card extends Component<ICard>{
     this.setText(this._cardTitle, title);
   }
 
+  get title(): string {
+    return this._cardTitle.textContent || '';
+  }
 
-  set image(src: string,) {
+  set image(src: string) {
     this.setImage(this._cardImage, src, this.title);
   }
 
-
   set category(category: string) {    
     this.setText(this._cardCategory, category);
-    this.toggleClass(this._cardCategory, this.Category[category], true);
+    this.setColorCategory(this._cardCategory, this.Category[category]);
+  }
+ 
+  toggle(modifier: string) {
+    this.toggleClass(bem('card', undefined, modifier).name);
   }
 
   set id (id: string) {
@@ -83,19 +90,19 @@ export class Card extends Component<ICard>{
 		this.setText(this._button, btnText);
 	}
 
-  set inCart(value: boolean) {
-		this.changeButtonDescription(value);
-	}
+  // set inCart(value: boolean) {
+	// 	this.changeButtonDescription(value);
+	// }
 
   set cartItemIndex(idx: string) {
 		this._cardIndex.textContent = idx;
 	}
 
-  changeButtonDescription(inCart: boolean) {
-		if (inCart) {
-			this.button = 'Удалить из корзины';
-		} else {
-			this.button = 'В корзину';
-		}
-	}
+  // changeButtonDescription(inCart: boolean) {
+	// 	if (inCart) {
+	// 		this.button = 'Удалить из корзины';
+	// 	} else {
+	// 		this.button = 'В корзину';
+	// 	}
+	// }
 }
