@@ -14,18 +14,18 @@ export class Page extends Component<IPage> {
 	protected _counter: HTMLElement;
 	protected _catalog: HTMLElement;
 	protected _wrapper: HTMLElement;
-	protected _shoppingCartIcon: HTMLElement;
+	protected _basketCartIcon: HTMLElement;
 
 	constructor(container: HTMLElement, protected events: IEvents) {
 		super(container);
 
 		this._counter = ensureElement<HTMLElement>('.header__basket-counter');
 		this._catalog = ensureElement<HTMLElement>('.gallery');
-		// this._wrapper = ensureElement<HTMLElement>('.page__wrapper');
-		this._shoppingCartIcon = ensureElement<HTMLElement>('.header__basket');
+		this._wrapper = ensureElement<HTMLElement>('.page__wrapper');
+		this._basketCartIcon = ensureElement<HTMLElement>('.header__basket');
 
-		this._shoppingCartIcon.addEventListener('click', () => {
-			this.events.emit('shoppingCart:select');
+		this._basketCartIcon.addEventListener('click', () => {
+			this.events.emit('basket:open');
 		});
 	}
 
@@ -38,17 +38,10 @@ export class Page extends Component<IPage> {
 	}
 
 	set locked(value: boolean) {
-	// 	if (value) {
-	// 		this._wrapper.classList.add('page__wrapper_locked');
-	// 	} else {
-	// 		this._wrapper.classList.remove('page__wrapper_locked');
-	// 	}
-	// }
-
-	if (value) {
-		this.toggleClass('page__wrapper_locked');
-	} else {
-		this.toggleClass('page__wrapper_locked');
+		if (value) {
+			this._wrapper.classList.add('page__wrapper_locked');
+		} else {
+			this._wrapper.classList.remove('page__wrapper_locked');
+		}
 	}
-}
 }

@@ -9,9 +9,9 @@ export abstract class Component<T> {
 	// 	element.classList.toggle(className, force);
 	// }
 
-	toggleClass(className: string) {
-		this.container.classList.toggle(className)
-	}
+	// toggleClass(className: string) {
+	// 	this.container.classList.toggle(className)
+	// }
 
 	protected setText(element: HTMLElement, value: unknown) {
 		if (element) {

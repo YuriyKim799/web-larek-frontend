@@ -74,9 +74,9 @@ export class Card extends Component<ICard>{
     this.setColorCategory(this._cardCategory, this.Category[category]);
   }
  
-  toggle(modifier: string) {
-    this.toggleClass(bem('card', undefined, modifier).name);
-  }
+  // toggle(modifier: string) {
+  //   this.toggleClass(bem('card', undefined, modifier).name);
+  // }
 
   set id (id: string) {
     this._cardId = id;
