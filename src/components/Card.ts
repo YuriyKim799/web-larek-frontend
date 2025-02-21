@@ -1,12 +1,10 @@
 // Компонент ВЬЮ
 import { ICard } from '../types';
-import { bem, ensureElement } from '../utils/utils';
+import { ensureElement } from '../utils/utils';
 import { Component } from './base/Component';
 interface ICardActions {
 	onClick: (event: MouseEvent) => void;
 }
-
-type CardModifier = 'compact' | 'full';
 export class Card extends Component<ICard>{
   protected _cardId: string;
   protected _cardCategory: HTMLElement;
@@ -73,10 +71,6 @@ export class Card extends Component<ICard>{
     this.setText(this._cardCategory, category);
     this.setColorCategory(this._cardCategory, this.Category[category]);
   }
- 
-  // toggle(modifier: string) {
-  //   this.toggleClass(bem('card', undefined, modifier).name);
-  // }
 
   set id (id: string) {
     this._cardId = id;
@@ -90,19 +84,8 @@ export class Card extends Component<ICard>{
 		this.setText(this._button, btnText);
 	}
 
-  // set inCart(value: boolean) {
-	// 	this.changeButtonDescription(value);
-	// }
-
   set cartItemIndex(idx: string) {
 		this._cardIndex.textContent = idx;
 	}
 
-  // changeButtonDescription(inCart: boolean) {
-	// 	if (inCart) {
-	// 		this.button = 'Удалить из корзины';
-	// 	} else {
-	// 		this.button = 'В корзину';
-	// 	}
-	// }
 }

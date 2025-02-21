@@ -13,7 +13,7 @@ export interface IOrder {
   phone: string;
   address: string;
   total: number;
-  cards: string[];
+  items: string[];
 }
 
 export interface IOrderResult {
@@ -26,6 +26,6 @@ export interface IBasket {
   total: number
 }
 
-export type OrderForm = Omit<IOrder, 'total' | 'cards'>;
+export type OrderForm = Omit<IOrder, 'total' | 'items'>;
 
-export type PaymentMethod = 'cash' | 'card';
+export type PaymentMethod = 'cash' | 'online';

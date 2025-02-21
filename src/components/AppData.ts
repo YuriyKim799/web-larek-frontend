@@ -3,19 +3,21 @@ import { IEvents } from './base/events';
 
 export class AppData {
   items: ICard[];
+
   previewCard: ICard = null;
+
   basket: IBasket = { 
     cards: [],
     total: 0
   };
 
   order: IOrder = {
-    payment: 'card',
+    payment: 'online',
     email: '',
     phone: '',
     address: '',
     total: 0,
-    cards: []
+    items: []
   }
 
   formErrors: Partial<Record<keyof OrderForm, string>> = {};
@@ -67,7 +69,7 @@ export class AppData {
 
     if(this.order.payment && this.validateOrder()) {
       this.order.total = this.basket.total;
-      this.order.cards = this.basket.cards;
+      this.order.items = this.basket.cards;
       this.events.emit('order:ready', this.order);
     }
   } 
@@ -89,7 +91,7 @@ export class AppData {
 
     this.formErrors = errors;
     this.events.emit('formErrors:change', this.formErrors);
-    return Object.keys(errors).length = 0;
+    return Object.keys(errors).length === 0;
   }
 
 }
