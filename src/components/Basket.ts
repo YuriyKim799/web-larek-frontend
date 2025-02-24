@@ -24,7 +24,6 @@ export class Basket extends View<IBasketView> {
     this._button.addEventListener('click', () => {
       events.emit('order:open');
     });
-    this.cards = []
   }
  
   set cards(items: HTMLElement[]) {

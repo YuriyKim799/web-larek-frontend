@@ -1,4 +1,4 @@
-import { OrderForm, PaymentMethod } from '../types';
+import { OrderForm } from '../types';
 import { EventEmitter } from './base/events';
 import { Form } from './Form';
 
@@ -24,12 +24,12 @@ export class Order extends Form<OrderForm> {
     });
   };
 
-  set payment(value: PaymentMethod) {
+  set payment(value: string) {
     this._paymentCard.classList.toggle('button_alt-active', value === 'online');
     this._paymentCash.classList.toggle('button_alt-active', value === 'cash');
   };
 
   set adress(value: string) {
-    (this.container.elements.namedItem('address') as HTMLInputElement).value = value;
+    (this.container.querySelector('.address') as HTMLInputElement).value = value;
   }
 }

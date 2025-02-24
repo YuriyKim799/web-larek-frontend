@@ -1,4 +1,4 @@
-import { IBasket, ICard, IOrder, OrderForm, PaymentMethod } from '../types';
+import { IBasket, ICard, IOrder, OrderForm } from '../types';
 import { IEvents } from './base/events';
 
 export class AppData {
@@ -56,13 +56,10 @@ export class AppData {
     this.events.emit('basket:change', this.basket);
   }
 
-  setPayMethod(method: PaymentMethod) {
-    this.order.payment = method;
-  }
 
   setOrderField(field: keyof OrderForm, value: string) {
     if(field === 'payment') {
-      this.setPayMethod(value as PaymentMethod);
+      this.order.payment = value;
     } else {
       this.order[field] = value;
     }

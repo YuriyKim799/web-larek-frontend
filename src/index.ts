@@ -88,12 +88,6 @@ events.on('preview:change', (data: ICard) => {
     }
 });
 
-events.on('basket:open', () => {
-  modal.render({
-    content: basket.render()
-  });
-});
-
 events.on('basket:change', () => {
   page.counter = cardsData.basket.cards.length;
 
@@ -111,6 +105,12 @@ events.on('basket:change', () => {
     });
      basket.total = cardsData.basket.total;
   });
+
+  events.on('basket:open', () => {
+  modal.render({
+    content: basket.render()
+  });
+});
 
   events.on('order:open', () => {
     modal.render({
@@ -161,11 +161,11 @@ events.on('contacts:submit', () => {
     const success = new Success(cloneTemplate
       (ensureElement<HTMLTemplateElement>('#success')), {
       onClick: () => {
+        orderForm.adress = '';
         modal.close();
         cardsData.clearBasket();
       }
     });
-
     modal.render({
       content: success.render(res)
     })

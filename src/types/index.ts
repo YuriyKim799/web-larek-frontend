@@ -8,7 +8,7 @@ export interface ICard { // интерфейс карточки товара
 }
 
 export interface IOrder {
-  payment: PaymentMethod;
+  payment: string;
   email: string;
   phone: string;
   address: string;
@@ -28,4 +28,4 @@ export interface IBasket {
 
 export type OrderForm = Omit<IOrder, 'total' | 'items'>;
 
-export type PaymentMethod = 'cash' | 'online';
+// export type PaymentMethod = 'cash' | 'online';
