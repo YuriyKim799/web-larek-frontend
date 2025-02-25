@@ -31,8 +31,6 @@ export class Form<T> extends View<IForm> {
   }
 
   protected onInputChange(field: keyof T, value: string) {
-    console.log(this.container.name);
-    console.log(field);
     this.events.emit(`${this.container.name}.${String(field)}:change`, {
       field,
       value

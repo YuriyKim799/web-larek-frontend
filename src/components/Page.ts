@@ -18,7 +18,6 @@ export class Page extends Component<IPage> {
 
 	constructor(container: HTMLElement, protected events: IEvents) {
 		super(container);
-
 		this._counter = ensureElement<HTMLElement>('.header__basket-counter');
 		this._catalog = ensureElement<HTMLElement>('.gallery');
 		this._wrapper = ensureElement<HTMLElement>('.page__wrapper');

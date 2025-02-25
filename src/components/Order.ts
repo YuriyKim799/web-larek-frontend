@@ -29,7 +29,7 @@ export class Order extends Form<OrderForm> {
     this._paymentCash.classList.toggle('button_alt-active', value === 'cash');
   };
 
-  set adress(value: string) {
-    (this.container.querySelector('.address') as HTMLInputElement).value = value;
+  set address(value: string) {
+    (this.container.elements.namedItem('address') as HTMLInputElement).value = value;
   }
 }

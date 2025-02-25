@@ -91,4 +91,15 @@ export class AppData {
     return Object.keys(errors).length === 0;
   }
 
-}
+  resetOrder() {
+    this.order = {
+      payment: 'online',
+      email: '',
+      phone: '',
+      address: '',
+      total: 0,
+      items: []
+    }
+  }
+
+} 

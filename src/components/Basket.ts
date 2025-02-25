@@ -22,13 +22,21 @@ export class Basket extends View<IBasketView> {
     this._button = this.container.querySelector('.basket__button');
 
     this._button.addEventListener('click', () => {
+      
       events.emit('order:open');
     });
+
+    this._list.replaceChildren(createElement<HTMLParagraphElement>('p', {
+      textContent: 'Корзина пуста'
+    }));
+
+    this._button.setAttribute('disabled', 'disabled');
   }
  
-  set cards(items: HTMLElement[]) {
-    if(items.length) {
-      this._list.replaceChildren(...items);
+  set cards(cards: HTMLElement[]) {
+   console.log(cards);
+    if(cards.length) {
+      this._list.replaceChildren(...cards);
       this._button.removeAttribute('disabled');
     } else {
       this._list.replaceChildren(createElement<HTMLParagraphElement>('p', {

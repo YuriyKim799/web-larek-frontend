@@ -34,7 +34,7 @@ api.getProductList()
   .then(cardsData.setCards.bind(cardsData))
   .catch(err => {console.log(err)});
 
-events.on('items:change', (items: ICard[])=> {
+events.on('items:change', (items: ICard[])=> {  
   page.catalog = items.map(item => {
     const card = new Card(cloneTemplate(cardCatalogTemlate), {
       onClick: () => events.emit('card:select', item)
@@ -57,6 +57,7 @@ events.on('modal:open', () => {
 });
 
 events.on('modal:close', () => {
+  cardsData.resetOrder(); 
   page.locked = false;
 });
 
@@ -161,7 +162,6 @@ events.on('contacts:submit', () => {
     const success = new Success(cloneTemplate
       (ensureElement<HTMLTemplateElement>('#success')), {
       onClick: () => {
-        orderForm.adress = '';
         modal.close();
         cardsData.clearBasket();
       }
