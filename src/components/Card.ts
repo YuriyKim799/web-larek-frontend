@@ -2,9 +2,11 @@
 import { ICard } from '../types';
 import { ensureElement } from '../utils/utils';
 import { Component } from './base/Component';
+import { CATEGORIES } from '../utils/constants';
 interface ICardActions {
 	onClick: (event: MouseEvent) => void;
 }
+
 export class Card extends Component<ICard>{
   protected _cardId: string;
   protected _cardCategory: HTMLElement;
@@ -14,14 +16,6 @@ export class Card extends Component<ICard>{
   protected _cardPrice: HTMLElement;
   protected _button: HTMLButtonElement;
   protected _cardIndex: HTMLElement;
-
-  Category: { [key: string]: string } = {
-		'софт-скил': 'card__category_soft',
-		'хард-скил': 'card__category_hard',
-		'дополнительное': 'card__category_additional',
-		'другое': 'card__category_other',
-		'кнопка': 'card__category_button',
-	};
 
   constructor(container: HTMLElement, actions: ICardActions) {
     super(container);
@@ -69,7 +63,7 @@ export class Card extends Component<ICard>{
 
   set category(category: string) {    
     this.setText(this._cardCategory, category);
-    this.setColorCategory(this._cardCategory, this.Category[category]);
+    this.setColorCategory(this._cardCategory, CATEGORIES[category]);
   }
 
   set id (id: string) {

@@ -5,7 +5,7 @@ import { IEvents } from './events';
 export abstract class Component<T> {
 	 constructor(protected readonly container: HTMLElement) {}
 
-	protected setText(element: HTMLElement, value: unknown) {
+	protected setText(element: HTMLElement, value: string) {
 		if (element) {
 			element.textContent = String(value);
 		}
@@ -25,6 +25,7 @@ export abstract class Component<T> {
 	}
 
 	render(data?: Partial<T>): HTMLElement {
+		console.log(this);
 		Object.assign(this as object, data ?? {});
 		return this.container;
 	}
