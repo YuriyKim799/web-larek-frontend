@@ -51,5 +51,4 @@ export class Form<T> extends View<IForm> {
     Object.assign(this, inputs);
     return this.container;
   }
-
  }

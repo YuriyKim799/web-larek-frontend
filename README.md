@@ -131,7 +131,7 @@ constructor(protected readonly container: HTMLElement) - В конструкто
 
 #### Класс AppApi
 
-interface ICustomApi {
+interface IAppApi {
 	  getProductList: () => Promise<ICard[]>;
     getProductItem: (id: string) => Promise<ICard>;
 	  orderProducts: (order: IOrder) => Promise<IOrderResult>;
@@ -279,12 +279,16 @@ interface IForm {
 
 - events.emit('order:submit')
 - events.emit('contacts:submit')
-- `order.address:change` - изменение поля ввода адреса доставки.
-- `order.payment:change` - изменение поля ввода способа оплаты.
-- `contacts.email:change` - изменение поля ввода электронной почты.
-- `contacts.phone:change` - изменение поля ввода номера телефона.
+- events.emit('order.address:change') 
+- events.emit('order.payment:change') 
+- events.emit('contacts.email:change') 
+- events.emit('contacts.phone:change') 
  
 #### Класс Card
+
+interface ICardActions {
+	onClick: (event: MouseEvent) => void;
+}
 
 Отвечает за отображение карточки товара, устанавливает картинку товара, название, цену, категорию и описание товара. Содержит сеттеры и геттеры для работы с полями.
 
@@ -308,14 +312,18 @@ interface IForm {
 - set image: Устанавливает изображение продукта.
 - set buttonText: Устанавливает текст кнопки.
 - set price: Устанавливает цену продукта.
-- setColorCategory: Устанавливает цвет категории карточки.
-- 
+  
 Методы класса (геттеры):
 
 - get id: возвращает id карточки.
 - get title: возвращает название карточки.
 
 #### Класс Basket
+
+interface IBasketView {
+  cards: HTMLElement[],
+  total: number
+}
 
 Является дочерним классом View.
 Отвечает за отображение содержимого корзины покупок.
@@ -333,18 +341,23 @@ interface IForm {
 
 - set total: Получаем сумму добавленных в корзину товаров.
 
+События: 
+
+- events.emit('order:open');
+
 #### Класс Order 
 
 Является дочерним классом Form, отвечает за отображение формы ввода выбора способа оплаты и адреса пользователя, содержит сеттеры для работы с полями.
+
 В конструктор принимает экземпляр EventEmitter для инициализации событий и HTML-элемент формы.
 
-- paymentCard - кнопка выбора оплатты картой.
-- paymentCash - кнопка выбора оплатты наличными.
+- paymentCard - кнопка выбора оплаты картой.
+- paymentCash - кнопка выбора оплаты наличными.
 
 Методы класса (сеттеры):
 
-- payment переключает класс на кнопках.
-- adress устанавливает значение в инпут.
+- set payment переключает класс на кнопках.
+- set adress устанавливает значение в инпут.
 
 #### Класс Contacts 
 
@@ -352,10 +365,18 @@ interface IForm {
 
 Методы класса (сеттеры):
 
-- email: устанавливает значение в инпут.
-- phone: устанавливает значение в инпут.
+- set email: устанавливает значение в инпут.
+- set phone: устанавливает значение в инпут.
 
 #### Класс Success 
+
+interface ISuccess {
+  total: number;
+}
+
+interface ISuccessActions {
+  onClick: () => void;
+}
 
 Имеет поля:
 
@@ -365,7 +386,7 @@ close: кнопка закрытия модального окна.
 в конструктор принимает, темплейт модального окна и коллбэк функцию.
 
 Методы класса (сеттеры):
-total: устанавливает текст в элемент разметки для отображения сообщения о покупке.
+total: устанавливает текст в элемент разметки для отображения сообщения о общей стоимости покупки.
 
 ### Взаимодействие компонентов
 

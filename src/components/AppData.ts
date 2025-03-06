@@ -1,4 +1,5 @@
 import { IBasket, ICard, IOrder, OrderForm } from '../types';
+import { ERRORS } from '../utils/constants';
 import { IEvents } from './base/Events';
 
 export class AppData {
@@ -77,16 +78,16 @@ export class AppData {
   validateOrder() {
     const errors: typeof this.formErrors = {};
     if(!this.order.payment) {
-      errors.payment = 'Необходимо выбрать способ оплаты';
+      errors.payment = ERRORS.paymentError;
     } 
     if(!this.order.email) {
-      errors.email = 'Необходимо указать email';
+      errors.email = ERRORS.emailError;
     }
     if(!this.order.phone) {
-      errors.phone = 'Необходимо указать телефон';
+      errors.phone = ERRORS.phoneError;
     }
     if(!this.order.address) {
-      errors.address = 'Необходимо указать адрес';
+      errors.address = ERRORS.addressError;
     }
 
     this.formErrors = errors;

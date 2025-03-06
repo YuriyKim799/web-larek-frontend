@@ -9,3 +9,9 @@ export const CATEGORIES: { [key: string]: string } = {
   'кнопка': 'card__category_button',
 };
 
+export const ERRORS: {[key: string]: string} = {
+  paymentError: 'Необходимо выбрать способ оплаты',
+  emailError: 'Необходимо указать email',
+  phoneError: 'Необходимо указать телефон',
+  addressError: 'Необходимо указать адрес',
+}
