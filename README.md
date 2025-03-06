@@ -131,6 +131,9 @@ constructor(protected readonly container: HTMLElement) - В конструкто
 
 #### Класс AppApi
 
+Интерфейс IAppApi описывает методы класса которые возвращают массив карточек с сервера, возвращают выбранную карточку с сервера по id, и возвращают объект заказа.
+-
+
 interface IAppApi {
 	  getProductList: () => Promise<ICard[]>;
     getProductItem: (id: string) => Promise<ICard>;
@@ -196,8 +199,11 @@ interface IAppApi {
 
 #### Класс Page
 
+Интерфейс IPage описывает методы класса Page сетер counter счетчика, значение которого выводит у иконки корзины на главной странице, сетер catalog который помещает карточки в список для отображения, сеттер locked
+блокирует страницу для прокрутки.
+
 interface IPage {
-    counter: number; - счетчик, значение которого выводится у иконки корзины на главной странице.
+    counter: number;
     catalog: HTMLElement[]; 
     locked: boolean; - блокировка скролла страницы при появлении модального окна.
 }
@@ -206,9 +212,9 @@ interface IPage {
 
 В конструктор принимает HTML элемент контейнера и экземпляр EventEmitter для инициализации событий и ставит слушатель событий на кнопку корзины.
 
-- counter: HTMLElement - счетчик товаров в корзине
-- catalog: HTMLElement - каталог товаров
-- wrapper: HTMLElement - обертка страницы (для блокировки скролла)
+- _counter: HTMLElement - счетчик товаров в корзине
+- _catalog: HTMLElement - каталог товаров
+- _wrapper: HTMLElement - обертка страницы (для блокировки скролла)
 - _basketCartIcon: HTMLElement - элемент счетчика на главной странице
 
 Методы класса (сеттеры):
