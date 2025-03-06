@@ -28,15 +28,15 @@ export class Modal extends View<IModal>{
 
   open() {
     this.container.classList.add("modal_active");
-    document.addEventListener('keyup', this.handleEscUp);
-    this.events.emit('modal:open')
+    document.addEventListener("keyup", this.handleEscUp);
+    this.events.emit("modal:open")
       }
 
   close() {
     this.container.classList.remove("modal_active");
     document.removeEventListener('keyup', this.handleEscUp);
     this.content = null;
-    this.events.emit('modal:close');
+    this.events.emit("modal:close");
   }
 
   handleEscUp (evt: KeyboardEvent) {
