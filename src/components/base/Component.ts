@@ -1,6 +1,6 @@
 // Базовый класс для работы с HTML элементами
 
-import { IEvents } from './events';
+import { IEvents } from './Events';
 
 export abstract class Component<T> {
 	 constructor(protected readonly container: HTMLElement) {}
@@ -12,7 +12,7 @@ export abstract class Component<T> {
 	}
 
 	setColorCategory(element: HTMLElement, category: string) {
-		element.classList.add(category);
+		element.classList.toggle(category);
 	}
 
 	setImage(element: HTMLImageElement, src: string, alt?: string) {
@@ -25,7 +25,6 @@ export abstract class Component<T> {
 	}
 
 	render(data?: Partial<T>): HTMLElement {
-		console.log(this);
 		Object.assign(this as object, data ?? {});
 		return this.container;
 	}

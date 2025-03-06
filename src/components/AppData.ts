@@ -1,5 +1,5 @@
 import { IBasket, ICard, IOrder, OrderForm } from '../types';
-import { IEvents } from './base/events';
+import { IEvents } from './base/Events';
 
 export class AppData {
   items: ICard[];
@@ -8,7 +8,6 @@ export class AppData {
 
   basket: IBasket = { 
     cards: [],
-    total: 0
   };
 
   order: IOrder = {
@@ -37,22 +36,26 @@ export class AppData {
   inBasket(card: ICard) {
     return this.basket.cards.includes(card.id)
   }
+
+  getBasketTotal(): number {
+    return this.basket.cards.reduce((total, cardId) => {
+      const item = this.items.find((item) => item.id === cardId);
+      return total + (item?.price || 0);
+    }, 0);
+  }
   
   addToBasket(card: ICard) {
     this.basket.cards.push(card.id);
-    this.basket.total += card.price;
     this.events.emit('basket:change', this.basket);
   }
 
   removeFromBasket(card: ICard) {
     this.basket.cards = this.basket.cards.filter(id => id !== card.id);
-    this.basket.total -= card.price;
     this.events.emit('basket:change', this.basket);
   }
 
   clearBasket() {
     this.basket.cards = [];
-    this.basket.total = 0;
     this.events.emit('basket:change', this.basket);
   }
 
@@ -65,7 +68,7 @@ export class AppData {
     }
 
     if(this.order.payment && this.validateOrder()) {
-      this.order.total = this.basket.total;
+      this.order.total = this.getBasketTotal()
       this.order.items = this.basket.cards;
       this.events.emit('order:ready', this.order);
     }
@@ -90,16 +93,4 @@ export class AppData {
     this.events.emit('formErrors:change', this.formErrors);
     return Object.keys(errors).length === 0;
   }
-
-  resetOrder() {
-    this.order = {
-      payment: 'online',
-      email: '',
-      phone: '',
-      address: '',
-      total: 0,
-      items: []
-    }
-  }
-
 } 

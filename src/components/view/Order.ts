@@ -1,5 +1,6 @@
-import { OrderForm } from '../types';
-import { EventEmitter } from './base/events';
+
+import { OrderForm } from '../../types';
+import { EventEmitter } from '../base/Events';
 import { Form } from './Form';
 
 export class Order extends Form<OrderForm> {
@@ -8,7 +9,7 @@ export class Order extends Form<OrderForm> {
 
 
   constructor(events: EventEmitter, container: HTMLFormElement){
-    super(events,container);
+    super(events, container);
 
     this._paymentCard = this.container.querySelector('.button_alt[name=card]');
     this._paymentCash = this.container.querySelector('.button_alt[name=cash]');

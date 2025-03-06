@@ -1,6 +1,6 @@
-import { cloneTemplate, createElement } from '../utils/utils';
-import { View } from './base/Component';
-import { EventEmitter } from './base/events';
+import { cloneTemplate, createElement } from '../../utils/utils';
+import { View } from '../base/Component';
+import { EventEmitter } from '../base/Events';
 
 interface IBasketView {
   cards: HTMLElement[],
@@ -21,8 +21,8 @@ export class Basket extends View<IBasketView> {
     this._total = this.container.querySelector('.basket__price');
     this._button = this.container.querySelector('.basket__button');
 
+
     this._button.addEventListener('click', () => {
-      
       events.emit('order:open');
     });
 
@@ -34,7 +34,6 @@ export class Basket extends View<IBasketView> {
   }
  
   set cards(cards: HTMLElement[]) {
-   console.log(cards);
     if(cards.length) {
       this._list.replaceChildren(...cards);
       this._button.removeAttribute('disabled');
@@ -49,4 +48,5 @@ export class Basket extends View<IBasketView> {
   set total(total: number) {
     this.setText(this._total, `${total} синапсов`);
   }
+
 } 

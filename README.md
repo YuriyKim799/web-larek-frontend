@@ -130,15 +130,19 @@ constructor(protected readonly container: HTMLElement) - В конструкто
 ### Слой коммуникации.
 
 #### Класс AppApi
+
+interface ICustomApi {
+	  getProductList: () => Promise<ICard[]>;
+    getProductItem: (id: string) => Promise<ICard>;
+	  orderProducts: (order: IOrder) => Promise<IOrderResult>;
+}
+
 Принимает в конструктор экземпляр класса Api и предоставляет методы реализующие взаимодействие с бэкендом сервиса.
 
 Методы:
 - getProductList() - получачем массив карточек товара
-
 - getProductItem(id) - получаем конкретную карточку по id
-
 - orderProducts(order) - отправляем на сервер объект заказа и получаем результат
-
 
 ### Слой данных (Model). Основные классы.
 
@@ -153,7 +157,7 @@ constructor(protected readonly container: HTMLElement) - В конструкто
 
  previewCard: ICard = null; объект карточки товара, открывается при клике на саму карточку в списке на главной странице.
  
-  basket: IBasket = { cards: [], total: 0}; Объект корзины хранит в себе массив карточек для отображения и общую стоимость товаров в корзине
+  basket: IBasket = { cards: [] }; Объект корзины хранит в себе массив карточек для отображения.
 
   formErrors = {}; Объект ошибок
 
@@ -168,23 +172,24 @@ constructor(protected readonly container: HTMLElement) - В конструкто
 
   Методы класса:
 
-  - setCards(cards) наполняет поле items массивом карточек товара с сервера.
-
-  - setPreview(card) наполняет поле previewCard объектом card для предварительного просмотра карточки.
-
-  - inBasket(card) принимает объект карточки товара и проверяет есть ли данный бъект карточки товар уже в корзине.
-
-  - addToBasket(card) добавляет выбранный товар в массив карточек корзины.
-
-  - removeFromBasket(card) удаляет товар из массива карточек корзины. 
-
+  - setCards(cards: ICard[]) наполняет поле items массивом карточек товара с сервера.
+  - setPreview(card: ICard) наполняет поле previewCard объектом card для предварительного просмотра карточки.
+  - inBasket(card: ICard) принимает объект карточки товара и проверяет есть ли данный бъект карточки товар уже в корзине.
+  - getBasketTotal(): number - возращает общую стоимость товаров в корзине.
+  - addToBasket(card: ICard) добавляет выбранный товар в массив карточек корзины.
+  - removeFromBasket(card: ICard) удаляет товар из массива карточек корзины. 
   - clearBasket() очищает корзину.
-
-  - setPayMethod(method) устанвалвивает в объект заказа способ оплаты.
-
   - setOrderField(field,value) заполняем объект заказа значениями из инпутов формы.
-
   - validateOrder() проверяет заполнены ли поля формы заказа.
+
+События: 
+
+- events.emit('items:change')
+- events.emit('preview:change')
+- events.emit('basket:change')
+- events.emit('order:ready')
+- events.emit('formErrors:change')
+
 
 ### Классы представления
 Все классы представления отвечают за отображение внутри контейнера (DOM-элемент) передаваемых в них данных.
@@ -200,7 +205,21 @@ constructor(protected readonly container: HTMLElement) - В конструкто
 - wrapper: HTMLElement - обертка страницы (для блокировки скролла)
 - _basketCartIcon: HTMLElement - элемент счетчика на главной странице
 
+Методы класса (сеттеры):
+
+- set counter(value: number) - принимает в себя числовое значение и отображает его на корзине покупок.
+- set catalog(items: HTMLElement[]) - принимает массив элементов, т.е. карточки для отображения
+- set locked(value: boolean) - принимает булевое значение заблокировать страницу для прокрутки либо нет.
+
+События: 
+
+- events.emit('basket:open')
+  
 #### Класс Modal 
+
+interface IModal {
+  content: HTMLElement;
+}
 
 Является дочерним классом View.
 Отображает универсальное модальное окно с кнопкой закрытия. Выводит внутри модального окна любой переданный контент.

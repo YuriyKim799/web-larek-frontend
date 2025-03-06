@@ -8,3 +8,4 @@ export const CATEGORIES: { [key: string]: string } = {
   'другое': 'card__category_other',
   'кнопка': 'card__category_button',
 };
+

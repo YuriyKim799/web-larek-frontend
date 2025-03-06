@@ -5,6 +5,7 @@ export interface ICard { // интерфейс карточки товара
   title: string;
   category: string;
   price: number | null;
+  cardIndex: number;
 }
 
 export interface IOrder {
@@ -23,7 +24,7 @@ export interface IOrderResult {
 
 export interface IBasket {
   cards: string[],
-  total: number
+  // total: number
 }
 
 export type OrderForm = Omit<IOrder, 'total' | 'items'>;

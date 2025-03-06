@@ -1,6 +1,6 @@
-import {Component} from "./base/Component";
-import {IEvents} from "./base/events";
-import {ensureElement} from "../utils/utils";
+import {Component} from "../base/Component";
+import {IEvents} from "../base/Events";
+import {ensureElement} from "../../utils/utils";
 
 interface IPage {
     counter: number; //- счетчик, значение которого выводится у иконки корзины на главной странице

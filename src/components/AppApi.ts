@@ -1,16 +1,15 @@
 import { ICard, IOrder, IOrderResult } from '../types';
 import { Api, ApiListResponse } from './base/api';
 
-export interface ICustomApi {
+export interface IAppApi {
 	  getProductList: () => Promise<ICard[]>;
     getProductItem: (id: string) => Promise<ICard>;
 	  orderProducts: (order: IOrder) => Promise<IOrderResult>;
 }
 
 
-export class AppApi extends Api implements ICustomApi {
+export class AppApi extends Api implements IAppApi {
   readonly cdn: string;
-
   constructor(cdn: string, baseUrl: string, options?: RequestInit) {
     super(baseUrl, options);
     this.cdn = cdn;

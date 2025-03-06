@@ -1,6 +1,6 @@
-import { ensureElement } from '../utils/utils';
-import { View } from './base/Component';
-import { EventEmitter } from './base/events';
+import { ensureElement } from '../../utils/utils';
+import { View } from '../base/Component';
+import { EventEmitter } from '../base/Events';
 
 interface IForm {
   valid: boolean,

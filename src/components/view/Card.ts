@@ -1,8 +1,8 @@
 // Компонент ВЬЮ
-import { ICard } from '../types';
-import { ensureElement } from '../utils/utils';
-import { Component } from './base/Component';
-import { CATEGORIES } from '../utils/constants';
+import { ICard } from '../../types';
+import { ensureElement } from '../../utils/utils';
+import { Component } from '../base/Component';
+import { CATEGORIES } from '../../utils/constants';
 interface ICardActions {
 	onClick: (event: MouseEvent) => void;
 }
@@ -78,8 +78,8 @@ export class Card extends Component<ICard>{
 		this.setText(this._button, btnText);
 	}
 
-  set cartItemIndex(idx: string) {
-		this._cardIndex.textContent = idx;
+  set cartItemIndex(idx: number) {
+		this._cardIndex.textContent = `${idx}`;
 	}
 
 }

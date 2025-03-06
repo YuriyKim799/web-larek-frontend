@@ -1,12 +1,12 @@
 import { AppApi } from './components/AppApi';
-import { EventEmitter } from './components/base/events';
-import { Basket } from './components/Basket';
-import { Card } from './components/Card';
-import { Contacts } from './components/Contacts';
-import { Modal } from './components/Modal';
-import { Order } from './components/Order';
-import { Page } from './components/Page';
-import { Success } from './components/Success';
+import { EventEmitter } from './components/base/Events';
+import { Basket } from './components/view/Basket';
+import { Card } from './components/view/Card';
+import { Contacts } from './components/view/Contacts';
+import { Modal } from './components/view/Modal';
+import { Order } from './components/view/Order';
+import { Page } from './components/view/Page';
+import { Success } from './components/view/Success';
 import { AppData } from './components/AppData';
 import './scss/styles.scss';
 import { ICard, OrderForm } from './types';
@@ -57,7 +57,6 @@ events.on('modal:open', () => {
 });
 
 events.on('modal:close', () => {
-  cardsData.resetOrder(); 
   page.locked = false;
 });
 
@@ -92,11 +91,12 @@ events.on('preview:change', (data: ICard) => {
 events.on('basket:change', () => {
   page.counter = cardsData.basket.cards.length;
 
-  basket.cards = cardsData.basket.cards.map(cardId => {
+  basket.cards = cardsData.basket.cards.map((cardId, idx) => {
     const item = cardsData.items.find(card => card.id === cardId);
     const card = new Card(cloneTemplate(cardBasketTemplate), {
       onClick: () => cardsData.removeFromBasket(item)
     });
+    card.cartItemIndex = idx + 1;
     return card.render({
       price: item.price,
       title: item.title,
@@ -104,7 +104,9 @@ events.on('basket:change', () => {
       description: item.description,
       })
     });
-     basket.total = cardsData.basket.total;
+
+     basket.total = cardsData.getBasketTotal();
+   
   });
 
   events.on('basket:open', () => {
@@ -163,9 +165,9 @@ events.on('contacts:submit', () => {
       (ensureElement<HTMLTemplateElement>('#success')), {
       onClick: () => {
         modal.close();
-        cardsData.clearBasket();
       }
     });
+    cardsData.clearBasket();
     modal.render({
       content: success.render(res)
     })

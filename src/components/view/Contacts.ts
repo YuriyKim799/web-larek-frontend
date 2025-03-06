@@ -1,4 +1,4 @@
-import { OrderForm } from '../types';
+import { OrderForm } from '../../types';
 import { Form } from './Form';
 
 
